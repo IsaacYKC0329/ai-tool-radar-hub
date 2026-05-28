@@ -8,6 +8,9 @@
       name="description"
       content="按任务场景整理的中英文 AI 工具导航，帮助用户快速搜索、筛选、比较和选择 AI 工具。"
     />
+    <meta name="theme-color" content="#fbfcfa" />
+    <link rel="preload" href="assets/hero-ai-tools-map-1600.jpg" as="image" />
+    <link rel="preconnect" href="https://www.google.com" />
     <style>
       :root {
         --ink: #172026;
@@ -46,6 +49,10 @@
       a {
         color: inherit;
         text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
       }
 
       button,
@@ -160,7 +167,7 @@
             rgba(251, 252, 250, 0.88) 43%,
             rgba(251, 252, 250, 0.22) 76%
           ),
-          url("assets/hero-ai-tools-map.png") center right / cover no-repeat;
+          url("assets/hero-ai-tools-map-1600.jpg") center right / cover no-repeat;
       }
 
       .hero::after {
@@ -736,8 +743,13 @@
         min-width: 0;
       }
 
+      .tool-title > div:last-child {
+        min-width: 0;
+      }
+
       .tool-logo {
         display: grid;
+        position: relative;
         width: 42px;
         height: 42px;
         flex: 0 0 auto;
@@ -750,14 +762,35 @@
       }
 
       .tool-logo img {
+        position: absolute;
+        inset: 7px;
         width: 28px;
         height: 28px;
         object-fit: contain;
+        opacity: 0;
+        transition: opacity 0.18s ease;
+      }
+
+      .tool-logo.is-loaded img {
+        opacity: 1;
+      }
+
+      .tool-logo-initials {
+        color: var(--accent, var(--teal));
+        font-size: 13px;
+        font-weight: 900;
+        line-height: 1;
+        transition: opacity 0.18s ease;
+      }
+
+      .tool-logo.is-loaded .tool-logo-initials {
+        opacity: 0;
       }
 
       .tool-card h3 {
         margin: 0;
         font-size: 18px;
+        overflow-wrap: anywhere;
       }
 
       .tool-card small {
@@ -951,7 +984,7 @@
               rgba(251, 252, 250, 0.96),
               rgba(251, 252, 250, 0.82)
             ),
-            url("assets/hero-ai-tools-map.png") center / cover no-repeat;
+            url("assets/hero-ai-tools-map-1600.jpg") center / cover no-repeat;
         }
 
         .search-row {
@@ -963,6 +996,8 @@
           margin-inline: -14px;
           padding: 2px 14px 4px;
           overflow-x: auto;
+          overscroll-behavior-inline: contain;
+          scroll-snap-type: x proximity;
           scrollbar-width: none;
         }
 
@@ -972,6 +1007,7 @@
 
         .quick-filters .chip {
           flex: 0 0 auto;
+          scroll-snap-align: start;
         }
 
         .hero-stats,
@@ -988,6 +1024,8 @@
         .radar-tabs {
           display: flex;
           overflow-x: auto;
+          overscroll-behavior-inline: contain;
+          scroll-snap-type: x proximity;
           scrollbar-width: none;
         }
 
@@ -997,6 +1035,7 @@
 
         .radar-tab {
           min-width: 132px;
+          scroll-snap-align: start;
         }
 
         .radar-display {
@@ -1040,16 +1079,16 @@
               rgba(251, 252, 250, 0.98),
               rgba(251, 252, 250, 0.9)
             ),
-            url("assets/hero-ai-tools-map.png") center top / cover no-repeat;
+            url("assets/hero-ai-tools-map-1600.jpg") center top / cover no-repeat;
         }
 
         .hero-inner {
           width: min(100% - 28px, 1180px);
-          padding: 42px 0 30px;
+          padding: 34px 0 28px;
         }
 
         h1 {
-          font-size: clamp(38px, 13vw, 56px);
+          font-size: clamp(34px, 12vw, 52px);
         }
 
         .hero-copy {
@@ -1088,11 +1127,30 @@
         }
 
         .radar-shell {
-          padding: 12px;
+          padding: 10px;
         }
 
         .radar-focus {
-          padding: 18px;
+          padding: 16px;
+        }
+
+        .radar-tabs {
+          margin-inline: -10px;
+          padding-inline: 10px;
+        }
+
+        .radar-tab {
+          min-height: 62px;
+          min-width: 116px;
+          padding: 9px;
+        }
+
+        .radar-tab-icon {
+          margin-bottom: 3px;
+        }
+
+        .radar-focus h3 {
+          font-size: clamp(24px, 9vw, 34px);
         }
 
         .radar-picks {
@@ -1116,7 +1174,7 @@
 
         .section {
           width: min(100% - 28px, 1180px);
-          padding: 42px 0;
+          padding: 36px 0;
         }
 
         .section-heading {
@@ -1142,8 +1200,9 @@
         }
 
         .tool-logo img {
-          width: 25px;
-          height: 25px;
+          inset: 6px;
+          width: 26px;
+          height: 26px;
         }
 
         .tool-desc {
@@ -2129,7 +2188,16 @@
                 <div class="tool-head">
                   <div class="tool-title">
                     <div class="tool-logo" aria-hidden="true">
-                      <img src="${getLogoUrl(tool.url)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${getInitials(tool.name)}'))" />
+                      <span class="tool-logo-initials">${getInitials(tool.name)}</span>
+                      <img
+                        src="${getLogoUrl(tool.url)}"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        referrerpolicy="no-referrer"
+                        onload="this.parentElement.classList.add('is-loaded')"
+                        onerror="this.remove()"
+                      />
                     </div>
                     <div>
                       <h3>${tool.name}</h3>
