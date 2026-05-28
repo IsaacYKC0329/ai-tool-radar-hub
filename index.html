@@ -1,0 +1,2203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Tool Navigator | AI 工具导航</title>
+    <meta
+      name="description"
+      content="按任务场景整理的中英文 AI 工具导航，帮助用户快速搜索、筛选、比较和选择 AI 工具。"
+    />
+    <style>
+      :root {
+        --ink: #172026;
+        --muted: #61707c;
+        --line: #dfe7ea;
+        --paper: #fbfcfa;
+        --panel: #ffffff;
+        --teal: #0f8f8c;
+        --teal-deep: #086a68;
+        --coral: #ef6f61;
+        --amber: #f2b84b;
+        --blue: #3e7bb6;
+        --leaf: #6a9b62;
+        --shadow: 0 18px 45px rgba(23, 32, 38, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        min-height: 66px;
+        padding: 14px clamp(18px, 4vw, 56px);
+        border-bottom: 1px solid rgba(223, 231, 234, 0.84);
+        background: rgba(251, 252, 250, 0.91);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 850;
+        letter-spacing: 0;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 8px;
+        background: conic-gradient(
+          from 145deg,
+          var(--teal),
+          var(--blue),
+          var(--coral),
+          var(--amber),
+          var(--teal)
+        );
+        color: white;
+        font-size: 18px;
+        box-shadow: 0 8px 22px rgba(15, 143, 140, 0.25);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: #3c4b54;
+        font-size: 14px;
+      }
+
+      .nav a {
+        padding: 8px 0;
+      }
+
+      .nav a:hover {
+        color: var(--teal-deep);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: white;
+      }
+
+      .lang-btn {
+        min-width: 42px;
+        min-height: 30px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .lang-btn.is-active {
+        background: var(--ink);
+        color: white;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 84vh;
+        display: grid;
+        align-items: end;
+        isolation: isolate;
+        overflow: hidden;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(251, 252, 250, 0.96) 0%,
+            rgba(251, 252, 250, 0.88) 43%,
+            rgba(251, 252, 250, 0.22) 76%
+          ),
+          url("assets/hero-ai-tools-map.png") center right / cover no-repeat;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 34%;
+        z-index: -1;
+        background: linear-gradient(0deg, var(--paper), rgba(251, 252, 250, 0));
+      }
+
+      .hero-inner {
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 76px 0 52px;
+      }
+
+      .hero-content {
+        max-width: 790px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 16px;
+        color: var(--teal-deep);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .eyebrow-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--coral);
+        box-shadow: 0 0 0 6px rgba(239, 111, 97, 0.13);
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(42px, 7vw, 88px);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        margin: 22px 0 0;
+        color: #3f4e56;
+        font-size: clamp(17px, 2vw, 21px);
+      }
+
+      .search-panel {
+        max-width: 960px;
+        margin-top: 34px;
+        padding: 14px;
+        border: 1px solid rgba(223, 231, 234, 0.94);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+      }
+
+      .search-row {
+        display: grid;
+        grid-template-columns: 1fr 190px 170px;
+        gap: 10px;
+      }
+
+      .search-box,
+      .select-box {
+        min-height: 50px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 15px;
+      }
+
+      .search-box svg {
+        flex: 0 0 auto;
+        color: var(--teal);
+      }
+
+      .search-box input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        color: var(--ink);
+        background: transparent;
+      }
+
+      .select-box {
+        padding: 0 12px;
+        color: var(--ink);
+        outline: 0;
+      }
+
+      .quick-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .chip {
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: white;
+        color: #4c5b64;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .chip:hover {
+        transform: translateY(-1px);
+        border-color: rgba(15, 143, 140, 0.35);
+      }
+
+      .chip.is-active {
+        border-color: var(--teal);
+        background: #e8f7f5;
+        color: var(--teal-deep);
+        font-weight: 750;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        gap: 10px;
+        max-width: 820px;
+        margin-top: 26px;
+      }
+
+      .stat {
+        min-height: 88px;
+        padding: 15px;
+        border: 1px solid rgba(223, 231, 234, 0.9);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.74);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .section {
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 58px 0;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 24px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        max-width: 470px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .analysis-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .need-card,
+      .tool-card,
+      .guide-card,
+      .source-card,
+      .model-card,
+      .capability-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 12px 34px rgba(23, 32, 38, 0.06);
+      }
+
+      .need-card {
+        min-height: 220px;
+        padding: 20px;
+      }
+
+      .need-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 8px;
+        color: white;
+        margin-bottom: 18px;
+      }
+
+      .need-card:nth-child(1) .need-icon {
+        background: var(--teal);
+      }
+
+      .need-card:nth-child(2) .need-icon {
+        background: var(--coral);
+      }
+
+      .need-card:nth-child(3) .need-icon {
+        background: var(--blue);
+      }
+
+      .need-card:nth-child(4) .need-icon {
+        background: var(--leaf);
+      }
+
+      .need-card h3,
+      .guide-card h3,
+      .source-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      .need-card p,
+      .guide-card p,
+      .source-card p,
+      .model-card p,
+      .capability-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .model-radar {
+        border-block: 1px solid var(--line);
+        background:
+          linear-gradient(90deg, rgba(62, 123, 182, 0.08), transparent 36%),
+          linear-gradient(120deg, rgba(242, 184, 75, 0.1), transparent 54%),
+          #ffffff;
+      }
+
+      .signal-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .signal {
+        min-height: 92px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .signal strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 15px;
+      }
+
+      .signal span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .capability-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .capability-card {
+        padding: 18px;
+      }
+
+      .capability-card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .capability-card ul {
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .capability-card li + li {
+        margin-top: 7px;
+      }
+
+      .model-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .model-card {
+        padding: 18px;
+      }
+
+      .model-card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .model-card .model-meta {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
+      .model-card a {
+        display: inline-flex;
+        margin-top: 14px;
+        color: var(--teal-deep);
+        font-weight: 850;
+      }
+
+      .radar-shell {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 18px 45px rgba(23, 32, 38, 0.08);
+      }
+
+      .radar-tabs {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .radar-tab {
+        min-height: 74px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: #40515a;
+        cursor: pointer;
+        text-align: left;
+        padding: 11px;
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .radar-tab:hover {
+        transform: translateY(-1px);
+        border-color: rgba(15, 143, 140, 0.35);
+      }
+
+      .radar-tab.is-active {
+        border-color: var(--teal);
+        background: #e8f7f5;
+        color: var(--teal-deep);
+      }
+
+      .radar-tab-icon {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 20px;
+      }
+
+      .radar-tab-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .radar-display {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 1.15fr;
+        gap: 14px;
+      }
+
+      .radar-focus,
+      .radar-picks {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+      }
+
+      .radar-focus {
+        padding: 22px;
+      }
+
+      .radar-kicker {
+        margin-bottom: 10px;
+        color: var(--teal-deep);
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .radar-focus h3 {
+        margin: 0;
+        font-size: clamp(25px, 4vw, 42px);
+        line-height: 1;
+      }
+
+      .radar-focus p {
+        margin: 14px 0 18px;
+        color: var(--muted);
+      }
+
+      .strength-bars {
+        display: grid;
+        gap: 10px;
+      }
+
+      .strength-row {
+        display: grid;
+        grid-template-columns: 118px 1fr;
+        align-items: center;
+        gap: 10px;
+        color: #40515a;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .bar-track {
+        height: 9px;
+        border-radius: 999px;
+        background: #edf2f1;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--teal), var(--amber));
+      }
+
+      .radar-source {
+        display: inline-flex;
+        margin-top: 18px;
+        color: var(--teal-deep);
+        font-weight: 850;
+      }
+
+      .radar-picks {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+        overflow: hidden;
+      }
+
+      .radar-pick {
+        min-height: 124px;
+        padding: 18px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .radar-pick:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .radar-pick:nth-last-child(-n + 2) {
+        border-bottom: 0;
+      }
+
+      .radar-pick strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 17px;
+      }
+
+      .radar-pick span {
+        display: inline-flex;
+        margin-bottom: 8px;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #f0f4f3;
+        color: #4d5e65;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .radar-pick p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .radar-note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tool-meta-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .result-count {
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .tool-card {
+        position: relative;
+        min-height: 242px;
+        padding: 18px;
+        overflow: hidden;
+      }
+
+      .tool-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 4px;
+        background: var(--accent, var(--teal));
+      }
+
+      .tool-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .tool-title {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
+      }
+
+      .tool-logo {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--accent, var(--teal)) 14%, white);
+        color: var(--accent, var(--teal));
+        font-weight: 900;
+        overflow: hidden;
+      }
+
+      .tool-logo img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .tool-card h3 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .tool-card small {
+        display: block;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+
+      .score {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #fff7e6;
+        color: #8a5a04;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .tool-desc {
+        min-height: 66px;
+        margin: 15px 0 12px;
+        color: #4c5b64;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0 0 16px;
+      }
+
+      .tag {
+        padding: 5px 8px;
+        border-radius: 999px;
+        background: #f0f4f3;
+        color: #4d5e65;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .tool-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tool-actions span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .visit {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex: 0 0 auto;
+        color: var(--teal-deep);
+        font-weight: 850;
+      }
+
+      .ad-section {
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 18px 0 58px;
+      }
+
+      .ad-slot {
+        display: grid;
+        min-height: 118px;
+        place-items: center;
+        border: 1px dashed #b8c8cc;
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(15, 143, 140, 0.08), transparent 42%),
+          rgba(255, 255, 255, 0.78);
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .ad-slot span {
+        display: block;
+        font-size: 12px;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .adsbygoogle {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        min-height: 90px;
+      }
+
+      .guide-band {
+        border-block: 1px solid var(--line);
+        background:
+          linear-gradient(90deg, rgba(15, 143, 140, 0.08), transparent 36%),
+          linear-gradient(120deg, rgba(239, 111, 97, 0.08), transparent 48%),
+          #f5faf8;
+      }
+
+      .guide-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .guide-card {
+        padding: 22px;
+      }
+
+      .guide-card strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        margin-bottom: 18px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: white;
+      }
+
+      .sources {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 14px;
+      }
+
+      .source-card {
+        padding: 22px;
+      }
+
+      .source-list {
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+        color: var(--muted);
+      }
+
+      .source-list li + li {
+        margin-top: 9px;
+      }
+
+      .source-list a {
+        color: var(--teal-deep);
+        font-weight: 800;
+      }
+
+      .empty {
+        display: none;
+        padding: 36px;
+        border: 1px dashed #b7c7cb;
+        border-radius: 8px;
+        color: var(--muted);
+        background: white;
+        text-align: center;
+      }
+
+      .site-footer {
+        padding: 34px clamp(18px, 4vw, 56px);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        background: white;
+      }
+
+      .site-footer strong {
+        color: var(--ink);
+      }
+
+      @media (max-width: 980px) {
+        .nav {
+          display: none;
+        }
+
+        .header-actions {
+          gap: 10px;
+        }
+
+        .hero {
+          min-height: auto;
+          background:
+            linear-gradient(
+              180deg,
+              rgba(251, 252, 250, 0.96),
+              rgba(251, 252, 250, 0.82)
+            ),
+            url("assets/hero-ai-tools-map.png") center / cover no-repeat;
+        }
+
+        .search-row {
+          grid-template-columns: 1fr;
+        }
+
+        .quick-filters {
+          flex-wrap: nowrap;
+          margin-inline: -14px;
+          padding: 2px 14px 4px;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .quick-filters::-webkit-scrollbar {
+          display: none;
+        }
+
+        .quick-filters .chip {
+          flex: 0 0 auto;
+        }
+
+        .hero-stats,
+        .analysis-grid,
+        .signal-strip,
+        .capability-grid,
+        .model-grid,
+        .tool-grid,
+        .guide-grid,
+        .sources {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .radar-tabs {
+          display: flex;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .radar-tabs::-webkit-scrollbar {
+          display: none;
+        }
+
+        .radar-tab {
+          min-width: 132px;
+        }
+
+        .radar-display {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .site-header {
+          min-height: 58px;
+          padding: 10px 14px;
+          gap: 10px;
+        }
+
+        .brand span:last-child {
+          max-width: 160px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .brand-mark {
+          width: 30px;
+          height: 30px;
+          font-size: 15px;
+        }
+
+        .lang-switch {
+          padding: 3px;
+        }
+
+        .lang-btn {
+          min-width: 38px;
+          min-height: 30px;
+        }
+
+        .hero {
+          background:
+            linear-gradient(
+              180deg,
+              rgba(251, 252, 250, 0.98),
+              rgba(251, 252, 250, 0.9)
+            ),
+            url("assets/hero-ai-tools-map.png") center top / cover no-repeat;
+        }
+
+        .hero-inner {
+          width: min(100% - 28px, 1180px);
+          padding: 42px 0 30px;
+        }
+
+        h1 {
+          font-size: clamp(38px, 13vw, 56px);
+        }
+
+        .hero-copy {
+          font-size: 16px;
+        }
+
+        .search-panel {
+          margin-top: 24px;
+          padding: 12px;
+          box-shadow: 0 14px 32px rgba(23, 32, 38, 0.11);
+        }
+
+        .search-box,
+        .select-box {
+          min-height: 48px;
+        }
+
+        .hero-stats {
+          gap: 8px;
+        }
+
+        .stat {
+          min-height: 74px;
+          padding: 13px;
+        }
+
+        .hero-stats,
+        .analysis-grid,
+        .signal-strip,
+        .capability-grid,
+        .model-grid,
+        .tool-grid,
+        .guide-grid,
+        .sources {
+          grid-template-columns: 1fr;
+        }
+
+        .radar-shell {
+          padding: 12px;
+        }
+
+        .radar-focus {
+          padding: 18px;
+        }
+
+        .radar-picks {
+          grid-template-columns: 1fr;
+        }
+
+        .radar-pick,
+        .radar-pick:nth-child(2n),
+        .radar-pick:nth-last-child(-n + 2) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .radar-pick:last-child {
+          border-bottom: 0;
+        }
+
+        .strength-row {
+          grid-template-columns: 92px 1fr;
+        }
+
+        .section {
+          width: min(100% - 28px, 1180px);
+          padding: 42px 0;
+        }
+
+        .section-heading {
+          display: block;
+        }
+
+        .section-heading p {
+          margin-top: 12px;
+        }
+
+        .tool-card {
+          min-height: 0;
+          padding: 16px;
+        }
+
+        .tool-head {
+          gap: 10px;
+        }
+
+        .tool-logo {
+          width: 38px;
+          height: 38px;
+        }
+
+        .tool-logo img {
+          width: 25px;
+          height: 25px;
+        }
+
+        .tool-desc {
+          min-height: 0;
+        }
+
+        .tool-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .visit {
+          width: 100%;
+          min-height: 42px;
+          justify-content: center;
+          border: 1px solid rgba(15, 143, 140, 0.28);
+          border-radius: 8px;
+          background: #eef8f6;
+        }
+
+        .ad-section {
+          width: min(100% - 28px, 1180px);
+          padding: 4px 0 42px;
+        }
+
+        .ad-slot {
+          min-height: 96px;
+          padding: 14px;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .brand span:last-child {
+          max-width: 126px;
+        }
+
+        .score {
+          font-size: 12px;
+          padding-inline: 6px;
+        }
+
+        .tool-card h3 {
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="AI Tool Navigator">
+        <span class="brand-mark">AI</span>
+        <span data-i18n="brand">AI Tool Navigator</span>
+      </a>
+      <div class="header-actions">
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#needs" data-i18n="navNeeds">Use Cases</a>
+          <a href="#models" data-i18n="navModels">Models</a>
+          <a href="#directory" data-i18n="navDirectory">Directory</a>
+          <a href="#guide" data-i18n="navGuide">Guide</a>
+          <a href="#sources" data-i18n="navSources">Sources</a>
+        </nav>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-btn" type="button" data-lang="zh">中</button>
+          <button class="lang-btn is-active" type="button" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <p class="eyebrow"><span class="eyebrow-dot"></span><span data-i18n="eyebrow">Find AI tools by real tasks</span></p>
+            <h1 id="page-title" data-i18n="heroTitle">AI Tool Navigator</h1>
+            <p class="hero-copy" data-i18n="heroCopy">
+              A global AI tools map organized for search, comparison, and direct access.
+            </p>
+          </div>
+
+          <section class="search-panel" aria-label="工具搜索与筛选">
+            <div class="search-row">
+              <label class="search-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <input
+                  id="searchInput"
+                  type="search"
+                  placeholder="搜索：写作、视频、代码、会议、ChatGPT..."
+                  data-placeholder-zh="搜索：写作、视频、代码、会议、ChatGPT..."
+                  data-placeholder-en="Search writing, video, coding, meetings, ChatGPT..."
+                />
+              </label>
+              <select id="categorySelect" class="select-box" aria-label="按分类筛选" data-aria-zh="按分类筛选" data-aria-en="Filter by category">
+                <option value="all" data-i18n="allCategories">全部分类</option>
+              </select>
+              <select id="pricingSelect" class="select-box" aria-label="按价格筛选" data-aria-zh="按价格筛选" data-aria-en="Filter by pricing">
+                <option value="all" data-i18n="allPricing">全部价格</option>
+                <option value="免费可用"></option>
+                <option value="免费试用"></option>
+                <option value="付费优先"></option>
+                <option value="企业版"></option>
+              </select>
+            </div>
+            <div id="quickFilters" class="quick-filters" aria-label="快捷场景筛选" data-aria-zh="快捷场景筛选" data-aria-en="Quick scene filters"></div>
+          </section>
+
+          <div class="hero-stats" aria-label="站点概览" data-aria-zh="站点概览" data-aria-en="Site overview">
+            <div class="stat">
+              <strong>49</strong>
+              <span data-i18n="statTools">精选 AI 工具</span>
+            </div>
+            <div class="stat">
+              <strong>12</strong>
+              <span data-i18n="statCategories">核心任务分类</span>
+            </div>
+            <div class="stat">
+              <strong>4</strong>
+              <span data-i18n="statCriteria">选型判断维度</span>
+            </div>
+            <div class="stat">
+              <strong>3</strong>
+              <span data-i18n="statSources">公开目录参考</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="needs" class="section">
+        <div class="section-heading">
+          <h2 data-i18n="needsTitle">按场景找工具</h2>
+        </div>
+        <div class="analysis-grid">
+          <article class="need-card">
+            <div class="need-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16M4 12h10M4 17h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3 data-i18n="need1Title">新手入门</h3>
+            <p data-i18n="need1Copy">快速理解每类工具能做什么，先试哪几个，哪些有免费额度或中文体验。</p>
+          </article>
+          <article class="need-card">
+            <div class="need-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3v18M5 8h14M7 16h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3 data-i18n="need2Title">效率办公</h3>
+            <p data-i18n="need2Copy">关注会议纪要、自动化、表格、知识库和跨应用协作是否顺手。</p>
+          </article>
+          <article class="need-card">
+            <div class="need-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 19 19 5M7 7h.01M17 17h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3 data-i18n="need3Title">内容创作</h3>
+            <p data-i18n="need3Copy">从文案、图片、视频、配音、封面到发布排期，形成连续创作链路。</p>
+          </article>
+          <article class="need-card">
+            <div class="need-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 7h8M7 12h10M9 17h6M5 4h14v16H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 data-i18n="need4Title">团队选型</h3>
+            <p data-i18n="need4Copy">比较价格、权限、数据安全、团队协作、替代方案和上手门槛。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="models" class="model-radar">
+        <div class="section">
+          <div class="section-heading">
+            <h2 data-i18n="modelsTitle">Model Radar</h2>
+            <p data-i18n="modelsCopy">A current view of model strengths, live-data behavior, and the best fit for each kind of task.</p>
+          </div>
+          <div class="radar-shell">
+            <div id="radarTabs" class="radar-tabs" aria-label="Model capability selector"></div>
+            <div class="radar-display">
+              <article class="radar-focus">
+                <div id="radarKicker" class="radar-kicker"></div>
+                <h3 id="radarTitle"></h3>
+                <p id="radarSummary"></p>
+                <div id="radarBars" class="strength-bars"></div>
+                <a id="radarSource" class="radar-source" href="#" target="_blank" rel="noreferrer"></a>
+              </article>
+              <div id="radarPicks" class="radar-picks"></div>
+            </div>
+            <div id="radarNote" class="radar-note"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="directory" class="section">
+        <div class="section-heading">
+          <h2 data-i18n="directoryTitle">AI 工具目录</h2>
+          <p data-i18n="directoryCopy">覆盖高频场景和代表性工具，按任务组织，方便快速搜索、筛选和访问官网。</p>
+        </div>
+        <div class="tool-meta-bar">
+          <span id="resultCount" class="result-count"></span>
+          <button class="chip is-active" id="resetBtn" type="button" data-i18n="reset">重置筛选</button>
+        </div>
+        <div id="toolGrid" class="tool-grid"></div>
+        <div id="emptyState" class="empty" data-i18n="empty">没有找到匹配工具。换个关键词或分类试试。</div>
+      </section>
+
+      <section class="ad-section" aria-label="Advertisement">
+        <div class="ad-slot">
+          <ins
+            class="adsbygoogle"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+            data-ad-slot="0000000000"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          >
+            <span data-i18n="adLabel">Advertisement</span>
+          </ins>
+        </div>
+      </section>
+
+      <section id="guide" class="guide-band">
+        <div class="section">
+          <div class="section-heading">
+            <h2 data-i18n="guideTitle">选型指南</h2>
+            <p data-i18n="guideCopy">更好的选择来自清晰任务、真实预算和可落地的工作流。</p>
+          </div>
+          <div class="guide-grid">
+            <article class="guide-card">
+              <strong>1</strong>
+              <h3 data-i18n="guide1Title">先按任务，不按品牌</h3>
+              <p data-i18n="guide1Copy">例如“短视频脚本 + 口播 + 字幕”比“最好用的 AI”更容易找到答案。</p>
+            </article>
+            <article class="guide-card">
+              <strong>2</strong>
+              <h3 data-i18n="guide2Title">用 4 个维度判断</h3>
+              <p data-i18n="guide2Copy">结果质量、上手成本、价格弹性、工作流集成，是挑选工具时最值得看的四件事。</p>
+            </article>
+            <article class="guide-card">
+              <strong>3</strong>
+              <h3 data-i18n="guide3Title">保留主推和备选</h3>
+              <p data-i18n="guide3Copy">同类工具建议同时比较新手首选、专业增强、免费方案和地区可用性。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="section">
+        <div class="section-heading">
+          <h2 data-i18n="sourcesTitle">数据来源</h2>
+          <p data-i18n="sourcesCopy">AI 工具变化很快，目录内容会持续参考公开目录、官网信息和用户反馈进行更新。</p>
+        </div>
+        <div class="sources">
+          <article class="source-card">
+            <h3 data-i18n="source1Title">收录原则</h3>
+            <p data-i18n="source1Copy">
+              优先收录可直接访问、用途清晰、体验稳定、适合真实工作流的 AI 工具，并保留官网入口方便用户自行确认价格和可用地区。
+            </p>
+          </article>
+          <article class="source-card">
+            <h3 data-i18n="source2Title">公开参考</h3>
+            <ul class="source-list">
+              <li><a href="https://www.futurepedia.io/" target="_blank" rel="noreferrer">Futurepedia</a><span data-i18n="sourceFuturepedia">：大型 AI 工具目录与学习平台</span></li>
+              <li><a href="https://www.toolify.ai/category?group=all" target="_blank" rel="noreferrer">Toolify</a><span data-i18n="sourceToolify">：多分类 AI 工具聚合</span></li>
+              <li><a href="https://stackviv.ai/" target="_blank" rel="noreferrer">Stackviv</a><span data-i18n="sourceStackviv">：AI 工具与 Agent 目录</span></li>
+              <li><a href="https://developers.openai.com/api/docs/models/gpt-image-2" target="_blank" rel="noreferrer">OpenAI GPT Image 2</a><span data-i18n="sourceOpenAIImage">：图片生成与编辑模型说明</span></li>
+              <li><a href="https://developers.openai.com/api/docs/models/gpt-5.5" target="_blank" rel="noreferrer">OpenAI GPT-5.5</a><span data-i18n="sourceOpenAIGpt">：复杂专业工作模型说明</span></li>
+              <li><a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noreferrer">Google Gemini Models</a><span data-i18n="sourceGemini">：Gemini 多模态模型目录</span></li>
+              <li><a href="https://www.anthropic.com/news/claude-opus-4-7" target="_blank" rel="noreferrer">Anthropic Claude Opus 4.7</a><span data-i18n="sourceClaude">：Claude 最新模型发布说明</span></li>
+              <li><a href="https://docs.x.ai/developers/models" target="_blank" rel="noreferrer">xAI Models</a><span data-i18n="sourceXai">：Grok、Imagine 和 Voice 模型说明</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong data-i18n="footerBrand">AI 工具导航</strong>
+      <span data-i18n="footerCopy"> · 中英文 AI 工具目录 · 官网入口已收录</span>
+    </footer>
+
+    <script>
+      const categories = [
+        "聊天搜索",
+        "写作办公",
+        "图片设计",
+        "视频创作",
+        "音频语音",
+        "代码开发",
+        "自动化代理",
+        "研究学习",
+        "数据分析",
+        "营销增长",
+        "翻译本地化",
+        "演示协作"
+      ];
+
+      const accents = {
+        聊天搜索: "#0f8f8c",
+        写作办公: "#ef6f61",
+        图片设计: "#3e7bb6",
+        视频创作: "#9a6b2f",
+        音频语音: "#6a9b62",
+        代码开发: "#23645f",
+        自动化代理: "#c27a38",
+        研究学习: "#4d79a7",
+        数据分析: "#6f7c3d",
+        营销增长: "#cf5f55",
+        翻译本地化: "#217f9b",
+        演示协作: "#8b6b3f"
+      };
+
+      const categoryLabels = {
+        聊天搜索: "Chat & Search",
+        写作办公: "Writing & Office",
+        图片设计: "Image & Design",
+        视频创作: "Video Creation",
+        音频语音: "Audio & Voice",
+        代码开发: "Coding & Development",
+        自动化代理: "Automation & Agents",
+        研究学习: "Research & Learning",
+        数据分析: "Data Analysis",
+        营销增长: "Marketing & Growth",
+        翻译本地化: "Translation & Localization",
+        演示协作: "Presentation & Collaboration"
+      };
+
+      const pricingLabels = {
+        免费可用: "Free plan",
+        免费试用: "Free trial",
+        付费优先: "Paid first",
+        企业版: "Enterprise"
+      };
+
+      const sceneLabels = {
+        全部: "All",
+        新手首选: "Beginner picks",
+        内容创作: "Content creation",
+        团队办公: "Team work",
+        开发上线: "Build & ship",
+        研究学习: "Research",
+        图片模型: "Image models",
+        代码代理: "Coding agents",
+        实时研究: "Research/live",
+        音视频: "Video/audio",
+        办公数据: "Office/data",
+        免费可用: "Free plan"
+      };
+
+      const radarData = {
+        image: {
+          icon: "◎",
+          label: { zh: "图片", en: "Image" },
+          kicker: { zh: "首选模型", en: "Best pick" },
+          title: "GPT Image 2",
+          summary: {
+            zh: "适合高质量出图、精确编辑、品牌视觉和需要图文输入的创意任务。",
+            en: "Best for high-quality generation, precise edits, brand visuals, and text+image creative tasks."
+          },
+          source: "https://developers.openai.com/api/docs/models/gpt-image-2",
+          bars: [
+            { label: { zh: "质量", en: "Quality" }, value: 96 },
+            { label: { zh: "编辑", en: "Editing" }, value: 94 },
+            { label: { zh: "速度", en: "Speed" }, value: 78 }
+          ],
+          picks: [
+            { name: "GPT Image 2", badge: "OpenAI", text: { zh: "高保真生成和编辑。", en: "High-fidelity generation and editing." } },
+            { name: "Nano Banana Pro", badge: "Google", text: { zh: "复杂版式和上下文图像。", en: "Contextual image creation and complex layouts." } },
+            { name: "Midjourney", badge: "Creative", text: { zh: "风格探索和视觉概念。", en: "Style exploration and visual concepts." } },
+            { name: "Adobe Firefly", badge: "Design", text: { zh: "设计工作流和商用素材。", en: "Design workflows and commercial assets." } }
+          ]
+        },
+        coding: {
+          icon: "</>",
+          label: { zh: "代码", en: "Code" },
+          kicker: { zh: "首选模型", en: "Best pick" },
+          title: "GPT-5.5 + Claude Opus 4.7",
+          summary: {
+            zh: "适合长流程开发、代码审查、调试、重构和能自己检查结果的软件代理任务。",
+            en: "Best for long-running development, reviews, debugging, refactors, and software agents that verify their work."
+          },
+          source: "https://developers.openai.com/api/docs/models/gpt-5.5",
+          bars: [
+            { label: { zh: "代码", en: "Coding" }, value: 97 },
+            { label: { zh: "代理", en: "Agents" }, value: 95 },
+            { label: { zh: "长任务", en: "Long tasks" }, value: 92 }
+          ],
+          picks: [
+            { name: "GPT-5.5", badge: "OpenAI", text: { zh: "复杂专业工作和工具调用。", en: "Complex work and tool use." } },
+            { name: "Claude Opus 4.7", badge: "Anthropic", text: { zh: "长流程代码和自我校验。", en: "Long coding tasks and self-checking." } },
+            { name: "Cursor", badge: "IDE", text: { zh: "项目内 AI 编程。", en: "AI coding inside projects." } },
+            { name: "GitHub Copilot", badge: "IDE", text: { zh: "补全、问答和团队开发。", en: "Completion, chat, and team coding." } }
+          ]
+        },
+        research: {
+          icon: "⌕",
+          label: { zh: "研究", en: "Research" },
+          kicker: { zh: "实时提醒", en: "Live-data rule" },
+          title: "Use search-grounded tools",
+          summary: {
+            zh: "实时新闻和市场数据不能只看模型训练截止日期，优先用带搜索、引用和文件检索的工具。",
+            en: "For live news and market data, choose tools with web search, citations, file search, or X search."
+          },
+          source: "https://docs.x.ai/developers/models",
+          bars: [
+            { label: { zh: "实时", en: "Live data" }, value: 96 },
+            { label: { zh: "引用", en: "Citations" }, value: 91 },
+            { label: { zh: "综合", en: "Synthesis" }, value: 86 }
+          ],
+          picks: [
+            { name: "Perplexity", badge: "Search", text: { zh: "引用式 AI 搜索。", en: "Citation-first AI search." } },
+            { name: "ChatGPT Search", badge: "Search", text: { zh: "实时检索加推理。", en: "Live search plus reasoning." } },
+            { name: "Gemini", badge: "Google", text: { zh: "搜索 grounding 和长上下文。", en: "Search grounding and long context." } },
+            { name: "Grok", badge: "X", text: { zh: "X/Search 场景和实时事件。", en: "X/Search workflows and current events." } }
+          ]
+        },
+        video: {
+          icon: "▶",
+          label: { zh: "音视频", en: "Video" },
+          kicker: { zh: "创作模型", en: "Creation stack" },
+          title: "Veo 3.1 + Runway + Kling",
+          summary: {
+            zh: "适合电影感视频、图生视频、短视频创意、实时语音代理、配音和音乐草稿。",
+            en: "Best for cinematic video, image-to-video, short-form ideas, realtime voice, dubbing, and music drafts."
+          },
+          source: "https://ai.google.dev/gemini-api/docs/models",
+          bars: [
+            { label: { zh: "视频", en: "Video" }, value: 94 },
+            { label: { zh: "语音", en: "Voice" }, value: 88 },
+            { label: { zh: "创意", en: "Creative" }, value: 92 }
+          ],
+          picks: [
+            { name: "Veo 3.1", badge: "Google", text: { zh: "电影级视频和音频同步。", en: "Cinematic video with synced audio." } },
+            { name: "Runway", badge: "Studio", text: { zh: "生成、编辑和创意视频流。", en: "Generate, edit, and iterate video." } },
+            { name: "ElevenLabs", badge: "Voice", text: { zh: "高质量配音和克隆。", en: "High-quality dubbing and cloning." } },
+            { name: "Suno", badge: "Music", text: { zh: "歌曲和音乐草稿。", en: "Songs and music drafts." } }
+          ]
+        },
+        office: {
+          icon: "▦",
+          label: { zh: "办公", en: "Office" },
+          kicker: { zh: "工作流", en: "Workflow" },
+          title: "GPT-5.5 + Claude + NotebookLM",
+          summary: {
+            zh: "适合文档分析、表格、演示、知识库、会议纪要和跨应用自动化。",
+            en: "Best for document analysis, spreadsheets, slides, knowledge bases, meeting notes, and app automation."
+          },
+          source: "https://developers.openai.com/api/docs/models/gpt-5.5",
+          bars: [
+            { label: { zh: "文档", en: "Docs" }, value: 94 },
+            { label: { zh: "数据", en: "Data" }, value: 90 },
+            { label: { zh: "协作", en: "Team" }, value: 86 }
+          ],
+          picks: [
+            { name: "NotebookLM", badge: "Study", text: { zh: "基于资料问答和总结。", en: "Source-grounded Q&A and summaries." } },
+            { name: "Gamma", badge: "Slides", text: { zh: "快速生成演示和简报。", en: "Fast decks and briefings." } },
+            { name: "Julius", badge: "Data", text: { zh: "自然语言分析表格。", en: "Natural-language spreadsheet analysis." } },
+            { name: "Zapier", badge: "Flow", text: { zh: "跨应用自动化。", en: "Cross-app automation." } }
+          ]
+        }
+      };
+
+      const ui = {
+        zh: {
+          title: "AI 工具导航",
+          brand: "AI 工具导航",
+          navNeeds: "使用场景",
+          navModels: "模型雷达",
+          navDirectory: "工具目录",
+          navGuide: "选型指南",
+          navSources: "数据来源",
+          eyebrow: "按真实任务找 AI 工具",
+          heroTitle: "AI 工具导航",
+          heroCopy: "面向全球用户，把分散的 AI 工具整理成可搜索、可比较、可直接访问的工具地图。",
+          allCategories: "全部分类",
+          allPricing: "全部价格",
+          statTools: "精选 AI 工具",
+          statCategories: "核心任务分类",
+          statCriteria: "选型判断维度",
+          statSources: "公开目录参考",
+          needsTitle: "按场景找工具",
+          need1Title: "新手入门",
+          need1Copy: "快速理解每类工具能做什么，先试哪几个，哪些有免费额度或本地化体验。",
+          need2Title: "效率办公",
+          need2Copy: "关注会议纪要、自动化、表格、知识库和跨应用协作是否顺手。",
+          need3Title: "内容创作",
+          need3Copy: "从文案、图片、视频、配音、封面到发布排期，形成连续创作链路。",
+          need4Title: "团队选型",
+          need4Copy: "比较价格、权限、数据安全、团队协作、替代方案和上手门槛。",
+          modelsTitle: "模型雷达",
+          modelsCopy: "选择一个任务类型，快速查看当前更适合的模型组合。",
+          signal1Title: "GPT Image 2 成为 OpenAI 图像重点模型",
+          signal1Copy: "支持文本和图像输入，面向快速高质量图片生成与编辑。",
+          signal2Title: "GPT-5.5 负责复杂专业工作",
+          signal2Copy: "适合代理式编程、专业工作流、数据分析和工具调用。",
+          signal3Title: "Claude Opus 4.7 强化长流程代码任务",
+          signal3Copy: "擅长严谨多步骤工程、指令遵循和自我校验。",
+          signal4Title: "实时信息依赖搜索工具",
+          signal4Copy: "模型要回答训练截止后的新闻和数据，需要接入网页、文件或 X 搜索。",
+          cap1Title: "推理与代理",
+          cap1Copy: "适合多步骤任务、工具调用、规划、代码库修改和业务流程。",
+          cap2Title: "图片生成与编辑",
+          cap2Copy: "适合品牌视觉、精确编辑、提示词出图、复杂版式和创意迭代。",
+          cap3Title: "代码与软件代理",
+          cap3Copy: "适合做功能、调试、重构、代码审查和操作开发工具。",
+          cap4Title: "研究与实时搜索",
+          cap4Copy: "适合带来源回答、市场追踪、实时新闻、引用和深度研究。",
+          cap5Title: "视频、音频与实时交互",
+          cap5Copy: "适合电影感视频、低延迟语音代理、语音生成、配音和音乐。",
+          cap6Title: "办公、数据与文档",
+          cap6Copy: "适合表格、演示、看板、文档分析和团队知识工作。",
+          modelImageMeta: "OpenAI · 图片生成/编辑",
+          modelImageCopy: "当你需要提示词遵循、高质量编辑和灵活图片尺寸时优先考虑。",
+          modelGptMeta: "OpenAI · 前沿工作模型",
+          modelGptCopy: "适合复杂专业工作、代码、长上下文、工具调用和电脑操作流程。",
+          modelClaudeMeta: "Anthropic · 编程和长流程任务",
+          modelClaudeCopy: "适合困难代码、严谨长任务、精确指令遵循和自我验证。",
+          modelGeminiMeta: "Google · 多模态模型族",
+          modelGeminiCopy: "覆盖多模态推理、图像创作、视频生成和实时音频。",
+          readSource: "查看来源",
+          directoryTitle: "AI 工具目录",
+          directoryCopy: "覆盖高频场景和代表性工具，按任务组织，方便快速搜索、筛选和访问官网。",
+          reset: "重置筛选",
+          empty: "没有找到匹配工具。换个关键词或分类试试。",
+          adLabel: "广告位",
+          guideTitle: "选型指南",
+          guideCopy: "更好的选择来自清晰任务、真实预算和可落地的工作流。",
+          guide1Title: "先按任务，不按品牌",
+          guide1Copy: "例如“短视频脚本 + 口播 + 字幕”比“最好用的 AI”更容易找到答案。",
+          guide2Title: "用 4 个维度判断",
+          guide2Copy: "结果质量、上手成本、价格弹性、工作流集成，是挑选工具时最值得看的四件事。",
+          guide3Title: "保留主推和备选",
+          guide3Copy: "同类工具建议同时比较新手首选、专业增强、免费方案和地区可用性。",
+          sourcesTitle: "数据来源",
+          sourcesCopy: "AI 工具变化很快，目录内容会持续参考公开目录、官网信息和用户反馈进行更新。",
+          source1Title: "收录原则",
+          source1Copy: "优先收录可直接访问、用途清晰、体验稳定、适合真实工作流的 AI 工具，并保留官网入口方便用户自行确认价格和可用地区。",
+          source2Title: "公开参考",
+          sourceFuturepedia: "：大型 AI 工具目录与学习平台",
+          sourceToolify: "：多分类 AI 工具聚合",
+          sourceStackviv: "：AI 工具与 Agent 目录",
+          sourceOpenAIImage: "：图片生成与编辑模型说明",
+          sourceOpenAIGpt: "：复杂专业工作模型说明",
+          sourceGemini: "：Gemini 多模态模型目录",
+          sourceClaude: "：Claude 最新模型发布说明",
+          sourceXai: "：Grok、Imagine 和 Voice 模型说明",
+          footerBrand: "AI 工具导航",
+          footerCopy: " · 中英文 AI 工具目录 · 官网入口已收录",
+          count: (shown, total) => `当前显示 ${shown} / ${total} 个工具`,
+          bestFor: "适合：",
+          visit: "访问官网"
+        },
+        en: {
+          title: "AI Tool Navigator",
+          brand: "AI Tool Navigator",
+          navNeeds: "Use Cases",
+          navModels: "Models",
+          navDirectory: "Directory",
+          navGuide: "Guide",
+          navSources: "Sources",
+          eyebrow: "Find AI tools by real tasks",
+          heroTitle: "AI Tool Navigator",
+          heroCopy: "A global AI tools map organized for search, comparison, and direct access.",
+          allCategories: "All categories",
+          allPricing: "All pricing",
+          statTools: "Curated AI tools",
+          statCategories: "Core categories",
+          statCriteria: "Selection criteria",
+          statSources: "Public references",
+          needsTitle: "Find Tools By Use Case",
+          need1Title: "Getting Started",
+          need1Copy: "Understand what each category does, which tools to try first, and which options offer free access or localized experiences.",
+          need2Title: "Productive Work",
+          need2Copy: "Look for smooth workflows across meeting notes, automation, spreadsheets, knowledge bases, and app integrations.",
+          need3Title: "Content Creation",
+          need3Copy: "Build a continuous content workflow from copy, images, video, voice, covers, and publishing.",
+          need4Title: "Team Selection",
+          need4Copy: "Compare pricing, permissions, data safety, collaboration, alternatives, and onboarding effort.",
+          modelsTitle: "Model Radar",
+          modelsCopy: "Pick a task type to see the strongest current model stack.",
+          signal1Title: "GPT Image 2 is now the OpenAI image benchmark",
+          signal1Copy: "Fast, high-quality image generation and editing with text and image inputs.",
+          signal2Title: "GPT-5.5 leads OpenAI's complex work stack",
+          signal2Copy: "Best suited for agentic coding, professional workflows, data work, and tool use.",
+          signal3Title: "Claude Opus 4.7 pushes long-running coding",
+          signal3Copy: "Strong at rigorous multi-step engineering, instruction following, and self-checking.",
+          signal4Title: "Live data depends on search tools",
+          signal4Copy: "Models need web, file, or X search tools to answer beyond their training cutoffs.",
+          cap1Title: "Reasoning & Agents",
+          cap1Copy: "For multi-step work, tool use, planning, codebase changes, and business workflows.",
+          cap2Title: "Image Generation & Editing",
+          cap2Copy: "For brand visuals, accurate edits, prompt-to-image, layout-heavy graphics, and creative iteration.",
+          cap3Title: "Coding & Software Agents",
+          cap3Copy: "For building features, debugging, refactoring, reviewing code, and operating development tools.",
+          cap4Title: "Research & Real-Time Search",
+          cap4Copy: "For source-backed answers, market tracking, live news, citations, and deep research workflows.",
+          cap5Title: "Video, Audio & Realtime",
+          cap5Copy: "For cinematic video, low-latency voice agents, speech generation, dubbing, and music.",
+          cap6Title: "Office, Data & Documents",
+          cap6Copy: "For spreadsheets, presentations, dashboards, document analysis, and team knowledge work.",
+          modelImageMeta: "OpenAI · image generation/editing",
+          modelImageCopy: "Use it when prompt fidelity, high-quality edits, and flexible image sizes matter.",
+          modelGptMeta: "OpenAI · frontier work model",
+          modelGptCopy: "Best for complex professional work, coding, long context, tool use, and computer workflows.",
+          modelClaudeMeta: "Anthropic · coding and long workflows",
+          modelClaudeCopy: "Strong for difficult coding, rigorous long-running tasks, precise instructions, and self-verification.",
+          modelGeminiMeta: "Google · multimodal suite",
+          modelGeminiCopy: "A broad model family for multimodal reasoning, image creation, video generation, and realtime audio.",
+          readSource: "Read source",
+          directoryTitle: "AI Tool Directory",
+          directoryCopy: "Browse representative tools across high-demand scenarios, organized by task for quick search and official-site access.",
+          reset: "Reset filters",
+          empty: "No matching tools. Try another keyword or category.",
+          adLabel: "Advertisement",
+          guideTitle: "Selection Guide",
+          guideCopy: "Better choices come from clear tasks, realistic budgets, and workflows that can actually be used.",
+          guide1Title: "Start With The Task",
+          guide1Copy: "A workflow like short-video script, voiceover, and subtitles works better than asking for the best AI tool.",
+          guide2Title: "Judge With 4 Criteria",
+          guide2Copy: "Result quality, learning curve, pricing flexibility, and workflow integration are the four signals worth checking.",
+          guide3Title: "Keep A Primary And Backup",
+          guide3Copy: "For each category, compare beginner picks, professional upgrades, free options, and regional availability.",
+          sourcesTitle: "Data Sources",
+          sourcesCopy: "AI tools change quickly. This directory references public directories, official sites, and user feedback.",
+          source1Title: "Listing Principles",
+          source1Copy: "Priority goes to AI tools that are accessible, clear in purpose, stable in experience, and useful in real workflows. Official links are provided so users can confirm pricing and regional availability.",
+          source2Title: "Public References",
+          sourceFuturepedia: ": large AI tools directory and learning platform",
+          sourceToolify: ": multi-category AI tools aggregator",
+          sourceStackviv: ": AI tools and agent directory",
+          sourceOpenAIImage: ": image generation and editing model notes",
+          sourceOpenAIGpt: ": complex professional work model notes",
+          sourceGemini: ": Gemini multimodal model directory",
+          sourceClaude: ": Claude latest model release notes",
+          sourceXai: ": Grok, Imagine, and Voice model notes",
+          footerBrand: "AI Tool Navigator",
+          footerCopy: " · Bilingual AI tool directory · Official links included",
+          count: (shown, total) => `Showing ${shown} of ${total} tools`,
+          bestFor: "Best for: ",
+          visit: "Official site"
+        }
+      };
+
+      const tools = [
+        ["ChatGPT", "聊天搜索", "通用对话、写作、分析、代码与多模态任务的入口型工具。", "免费可用", "新手首选", 4.9, ["全能", "多模态", "插件生态"], "https://chatgpt.com/"],
+        ["Claude", "聊天搜索", "长文档理解、严谨写作、代码协作和复杂推理表现稳定。", "免费可用", "长文档", 4.8, ["长上下文", "写作", "代码"], "https://claude.ai/"],
+        ["Gemini", "聊天搜索", "适合 Google 生态用户，连接搜索、文档和多模态能力。", "免费可用", "Google 生态", 4.6, ["搜索", "多模态", "办公"], "https://gemini.google.com/"],
+        ["Perplexity", "聊天搜索", "面向带引用的 AI 搜索，适合快速查资料和追踪热点。", "免费可用", "资料检索", 4.7, ["引用", "搜索", "研究"], "https://www.perplexity.ai/"],
+        ["Poe", "聊天搜索", "聚合多种模型，适合横向体验不同模型风格。", "免费可用", "模型聚合", 4.4, ["多模型", "聊天", "探索"], "https://poe.com/"],
+        ["Microsoft Copilot", "聊天搜索", "适合 Windows、Edge 与 Microsoft 365 用户的日常助手。", "免费可用", "办公生态", 4.4, ["办公", "搜索", "企业"], "https://copilot.microsoft.com/"],
+        ["Grammarly", "写作办公", "英文写作润色、语气调整和语法检查的成熟工具。", "免费可用", "英文写作", 4.6, ["校对", "邮件", "语气"], "https://www.grammarly.com/"],
+        ["QuillBot", "写作办公", "改写、总结、引用和语法辅助，适合学生与内容创作者。", "免费可用", "改写总结", 4.4, ["改写", "总结", "引用"], "https://quillbot.com/"],
+        ["Notion AI", "写作办公", "把知识库、文档、项目记录和 AI 摘要放在同一工作区。", "付费优先", "知识库", 4.5, ["文档", "知识库", "协作"], "https://www.notion.com/product/ai"],
+        ["Jasper", "营销增长", "偏营销团队的品牌文案、广告素材和内容生产工作台。", "付费优先", "品牌文案", 4.4, ["营销", "品牌", "文案"], "https://www.jasper.ai/"],
+        ["Copy.ai", "营销增长", "适合销售邮件、广告文案和增长团队自动化内容流程。", "免费试用", "销售内容", 4.2, ["销售", "文案", "流程"], "https://www.copy.ai/"],
+        ["Surfer SEO", "营销增长", "围绕关键词、内容结构和 SEO 优化的写作辅助平台。", "付费优先", "SEO 内容", 4.3, ["SEO", "关键词", "内容"], "https://surferseo.com/"],
+        ["Midjourney", "图片设计", "高质感图片生成，适合概念图、视觉探索和风格化创作。", "付费优先", "视觉探索", 4.8, ["图片", "风格", "概念"], "https://www.midjourney.com/"],
+        ["GPT Image 2", "图片设计", "OpenAI 的前沿图片生成与编辑模型，适合高质量出图和精确修改。", "付费优先", "图片生成与编辑", 4.8, ["图片", "编辑", "高保真"], "https://developers.openai.com/api/docs/models/gpt-image-2"],
+        ["Adobe Firefly", "图片设计", "适合设计团队，强调生成式填充、商用素材和 Adobe 工作流。", "免费试用", "设计生产", 4.6, ["商用", "编辑", "Adobe"], "https://firefly.adobe.com/"],
+        ["Canva AI", "图片设计", "面向非设计师的海报、社媒图、演示和品牌素材生成。", "免费可用", "轻设计", 4.5, ["设计", "模板", "社媒"], "https://www.canva.com/ai/"],
+        ["Krea", "图片设计", "实时图像生成与风格控制，适合视觉创作者快速迭代。", "免费可用", "实时出图", 4.4, ["实时", "风格", "图像"], "https://www.krea.ai/"],
+        ["Ideogram", "图片设计", "擅长带文字的海报、标语和图形化视觉生成。", "免费可用", "文字海报", 4.3, ["海报", "文字", "品牌"], "https://ideogram.ai/"],
+        ["Runway", "视频创作", "AI 视频生成、剪辑、抠像和创意视频工作流平台。", "免费试用", "视频生成", 4.7, ["视频", "剪辑", "生成"], "https://runwayml.com/"],
+        ["Pika", "视频创作", "轻量视频生成与风格化动效，适合短视频创意探索。", "免费试用", "短视频", 4.4, ["视频", "动效", "创意"], "https://pika.art/"],
+        ["Kling AI", "视频创作", "高质量文生视频和图生视频，适合镜头感较强的内容。", "免费试用", "图生视频", 4.5, ["视频", "镜头", "创作"], "https://kling.ai/"],
+        ["HeyGen", "视频创作", "数字人、口播视频、翻译配音和企业培训视频常用。", "免费试用", "数字人", 4.5, ["数字人", "口播", "翻译"], "https://www.heygen.com/"],
+        ["Synthesia", "视频创作", "企业级 AI 数字人视频，适合培训、销售和内部沟通。", "企业版", "企业培训", 4.3, ["数字人", "企业", "培训"], "https://www.synthesia.io/"],
+        ["CapCut", "视频创作", "剪辑、字幕、模板和 AI 特效结合，适合短视频发布链路。", "免费可用", "剪辑发布", 4.4, ["剪辑", "字幕", "模板"], "https://www.capcut.com/"],
+        ["ElevenLabs", "音频语音", "高质量语音合成、配音和声音克隆。", "免费试用", "配音", 4.8, ["TTS", "配音", "克隆"], "https://elevenlabs.io/"],
+        ["Suno", "音频语音", "从提示词生成歌曲，适合音乐草稿和创意实验。", "免费可用", "音乐生成", 4.6, ["音乐", "歌曲", "创意"], "https://suno.com/"],
+        ["Udio", "音频语音", "音乐生成与歌曲片段创作，适合风格探索。", "免费可用", "音乐片段", 4.4, ["音乐", "风格", "生成"], "https://www.udio.com/"],
+        ["Descript", "音频语音", "音视频转写、剪辑、修音和播客制作的一体化工具。", "免费试用", "播客剪辑", 4.5, ["转写", "剪辑", "播客"], "https://www.descript.com/"],
+        ["Otter.ai", "音频语音", "会议录音、转写、摘要和行动项提取。", "免费可用", "会议纪要", 4.3, ["会议", "转写", "摘要"], "https://otter.ai/"],
+        ["Cursor", "代码开发", "AI 原生代码编辑器，适合从需求到修改项目代码。", "免费试用", "项目开发", 4.8, ["IDE", "代码", "重构"], "https://cursor.com/"],
+        ["GitHub Copilot", "代码开发", "代码补全、问答和 IDE 内协作，适合专业开发者。", "付费优先", "代码补全", 4.7, ["补全", "IDE", "团队"], "https://github.com/features/copilot"],
+        ["Replit", "代码开发", "云端开发、AI 生成应用和快速部署，适合教学与快速搭建。", "免费可用", "云端开发", 4.4, ["云 IDE", "部署", "快速搭建"], "https://replit.com/"],
+        ["Lovable", "代码开发", "用自然语言生成 Web 应用，适合产品验证和快速上线。", "免费试用", "应用生成", 4.4, ["无代码", "Web App", "产品验证"], "https://lovable.dev/"],
+        ["Bolt", "代码开发", "浏览器内生成、编辑和运行全栈 Web 应用。", "免费试用", "快速搭建", 4.3, ["快速搭建", "全栈", "Web"], "https://bolt.new/"],
+        ["v0", "代码开发", "面向前端 UI 生成和 React 组件搭建的设计开发工具。", "免费试用", "UI 搭建", 4.3, ["前端", "React", "UI"], "https://v0.dev/"],
+        ["Zapier", "自动化代理", "连接应用、自动化工作流，并加入 AI 步骤和代理能力。", "免费试用", "工作流", 4.6, ["自动化", "集成", "业务"], "https://zapier.com/"],
+        ["Make", "自动化代理", "可视化自动化平台，适合多步骤业务流程。", "免费可用", "可视化流程", 4.4, ["自动化", "流程", "集成"], "https://www.make.com/en"],
+        ["Lindy", "自动化代理", "面向日程、邮件、销售和运营任务的 AI 助理。", "免费试用", "业务助理", 4.2, ["代理", "运营", "邮件"], "https://www.lindy.ai/"],
+        ["Elicit", "研究学习", "论文检索、研究问题拆解和证据整理。", "免费可用", "论文研究", 4.6, ["论文", "研究", "证据"], "https://elicit.com/"],
+        ["Consensus", "研究学习", "从研究论文中寻找共识答案，适合科学问题查证。", "免费可用", "科学问答", 4.5, ["论文", "证据", "问答"], "https://consensus.app/"],
+        ["NotebookLM", "研究学习", "基于用户资料的问答、摘要和学习材料整理。", "免费可用", "资料学习", 4.6, ["资料", "学习", "摘要"], "https://notebooklm.google.com/"],
+        ["Quizlet", "研究学习", "学习卡片、测验和 AI 学习辅助，适合学生复习。", "免费可用", "记忆复习", 4.2, ["学习", "卡片", "测验"], "https://quizlet.com/"],
+        ["Julius", "数据分析", "用自然语言分析表格、生成图表和解释数据。", "免费试用", "表格分析", 4.4, ["数据", "图表", "表格"], "https://julius.ai/"],
+        ["Tableau Pulse", "数据分析", "面向企业 BI 的指标洞察、自然语言解释和数据提醒。", "企业版", "企业 BI", 4.2, ["BI", "指标", "企业"], "https://www.tableau.com/products/tableau-pulse"],
+        ["Airtable AI", "数据分析", "在业务数据库中生成摘要、分类、自动化和内容。", "付费优先", "业务数据", 4.3, ["数据库", "自动化", "协作"], "https://www.airtable.com/platform/ai"],
+        ["DeepL", "翻译本地化", "高质量机器翻译和写作润色，适合多语言内容。", "免费可用", "翻译", 4.8, ["翻译", "润色", "多语言"], "https://www.deepl.com/en"],
+        ["Google Translate", "翻译本地化", "覆盖语种广，适合快速翻译、网页和旅行场景。", "免费可用", "快速翻译", 4.5, ["翻译", "多语种", "移动"], "https://translate.google.com/"],
+        ["Gamma", "演示协作", "用 AI 生成演示、网页式文档和简报。", "免费可用", "演示生成", 4.5, ["演示", "文档", "模板"], "https://gamma.app/"],
+        ["Miro AI", "演示协作", "白板、头脑风暴、流程图和团队协作中的 AI 辅助。", "免费试用", "白板协作", 4.3, ["白板", "协作", "流程"], "https://miro.com/ai/ai-overview/"]
+      ].map(([name, category, desc, pricing, bestFor, score, tags, url]) => ({
+        name,
+        category,
+        desc,
+        pricing,
+        bestFor,
+        score,
+        tags,
+        url
+      }));
+
+      const toolCopyEn = {
+        ChatGPT: ["General-purpose assistant for chat, writing, analysis, coding, and multimodal tasks.", "Beginner pick", ["All-in-one", "Multimodal", "Ecosystem"]],
+        Claude: ["Strong for long documents, careful writing, coding support, and complex reasoning.", "Long documents", ["Long context", "Writing", "Coding"]],
+        Gemini: ["Useful for Google ecosystem users, combining search, documents, and multimodal features.", "Google ecosystem", ["Search", "Multimodal", "Office"]],
+        Perplexity: ["AI search with citations, ideal for quick research and tracking current topics.", "Research search", ["Citations", "Search", "Research"]],
+        Poe: ["A multi-model chat hub for comparing different model styles in one place.", "Model hub", ["Multi-model", "Chat", "Discovery"]],
+        "Microsoft Copilot": ["A daily AI assistant for Windows, Edge, and Microsoft 365 users.", "Office ecosystem", ["Office", "Search", "Enterprise"]],
+        Grammarly: ["Mature English writing assistant for grammar, tone, clarity, and editing.", "English writing", ["Proofreading", "Email", "Tone"]],
+        QuillBot: ["Paraphrasing, summarizing, citation, and grammar tools for students and creators.", "Paraphrase", ["Rewrite", "Summary", "Citation"]],
+        "Notion AI": ["Adds AI summaries, writing, and knowledge work inside Notion workspaces.", "Knowledge base", ["Docs", "Knowledge base", "Collaboration"]],
+        Jasper: ["Brand and marketing content platform for teams producing campaigns and copy.", "Brand copy", ["Marketing", "Brand", "Copywriting"]],
+        "Copy.ai": ["Sales emails, ad copy, and automated content workflows for growth teams.", "Sales content", ["Sales", "Copywriting", "Workflow"]],
+        "Surfer SEO": ["SEO writing platform for keywords, content structure, and on-page optimization.", "SEO content", ["SEO", "Keywords", "Content"]],
+        Midjourney: ["High-quality image generation for concept art, style exploration, and visual ideation.", "Visual exploration", ["Images", "Style", "Concepts"]],
+        "GPT Image 2": ["OpenAI's frontier image model for high-quality generation and precise editing.", "Image generation & editing", ["Images", "Editing", "High fidelity"]],
+        "Adobe Firefly": ["Design-focused generative tools for fill, commercial assets, and Adobe workflows.", "Design production", ["Commercial", "Editing", "Adobe"]],
+        "Canva AI": ["Easy design tools for posters, social graphics, presentations, and brand assets.", "Lightweight design", ["Design", "Templates", "Social media"]],
+        Krea: ["Real-time image generation and style control for fast visual iteration.", "Real-time images", ["Real-time", "Style", "Image"]],
+        Ideogram: ["Good at posters, slogans, and graphic visuals that include text.", "Text posters", ["Poster", "Text", "Brand"]],
+        Runway: ["AI video generation, editing, masking, and creative production tools.", "Video generation", ["Video", "Editing", "Generation"]],
+        Pika: ["Lightweight video generation and stylized motion for short-form ideas.", "Short videos", ["Video", "Motion", "Creative"]],
+        "Kling AI": ["High-quality text-to-video and image-to-video generation with strong camera feel.", "Image to video", ["Video", "Camera", "Creation"]],
+        HeyGen: ["AI avatars, talking-head videos, dubbing, and translated business videos.", "AI avatars", ["Avatar", "Voiceover", "Translation"]],
+        Synthesia: ["Enterprise AI avatar videos for training, sales, and internal communication.", "Enterprise training", ["Avatar", "Enterprise", "Training"]],
+        CapCut: ["Editing, subtitles, templates, and AI effects for short-form publishing workflows.", "Edit and publish", ["Editing", "Subtitles", "Templates"]],
+        ElevenLabs: ["High-quality voice synthesis, dubbing, and voice cloning.", "Voiceover", ["Text to speech", "Dubbing", "Cloning"]],
+        Suno: ["Generate songs from prompts for music drafts and creative experiments.", "Music generation", ["Music", "Songs", "Creative"]],
+        Udio: ["AI music creation for song snippets and style exploration.", "Music snippets", ["Music", "Style", "Generation"]],
+        Descript: ["Audio and video transcription, editing, cleanup, and podcast production.", "Podcast editing", ["Transcription", "Editing", "Podcast"]],
+        "Otter.ai": ["Meeting recording, transcription, summaries, and action items.", "Meeting notes", ["Meetings", "Transcription", "Summary"]],
+        Cursor: ["AI-native code editor for understanding, editing, and shipping real projects.", "Project coding", ["IDE", "Code", "Refactor"]],
+        "GitHub Copilot": ["Code completion, coding chat, and IDE support for professional developers.", "Code completion", ["Autocomplete", "IDE", "Team"]],
+        Replit: ["Cloud development, AI app generation, and quick deployment for learning and fast builds.", "Cloud development", ["Cloud IDE", "Deploy", "Fast build"]],
+        Lovable: ["Generate web apps from natural language for product validation and fast launches.", "App generation", ["No-code", "Web app", "Validation"]],
+        Bolt: ["Generate, edit, and run full-stack web apps in the browser.", "Fast build", ["Fast build", "Full-stack", "Web"]],
+        v0: ["Frontend UI generation and React component building.", "UI building", ["Frontend", "React", "UI"]],
+        Zapier: ["Connect apps, automate workflows, and add AI steps or agents.", "Workflow automation", ["Automation", "Integration", "Business"]],
+        Make: ["Visual automation platform for multi-step business workflows.", "Visual workflow", ["Automation", "Workflow", "Integration"]],
+        Lindy: ["AI assistants for calendar, email, sales, and operations tasks.", "Business assistant", ["Agent", "Operations", "Email"]],
+        Elicit: ["Find papers, break down research questions, and organize evidence.", "Paper research", ["Papers", "Research", "Evidence"]],
+        Consensus: ["Search research papers for evidence-backed answers to scientific questions.", "Scientific Q&A", ["Papers", "Evidence", "Q&A"]],
+        NotebookLM: ["Ask questions, summarize, and organize learning materials from your own sources.", "Source learning", ["Sources", "Learning", "Summary"]],
+        Quizlet: ["Study cards, quizzes, and AI learning support for review.", "Memory review", ["Learning", "Cards", "Quizzes"]],
+        Julius: ["Analyze spreadsheets, create charts, and explain data in natural language.", "Spreadsheet analysis", ["Data", "Charts", "Spreadsheets"]],
+        "Tableau Pulse": ["Enterprise BI insights, metric explanations, and data alerts.", "Enterprise BI", ["BI", "Metrics", "Enterprise"]],
+        "Airtable AI": ["Summaries, classification, automation, and content inside business databases.", "Business data", ["Database", "Automation", "Collaboration"]],
+        DeepL: ["High-quality machine translation and writing refinement for multilingual content.", "Translation", ["Translation", "Polishing", "Multilingual"]],
+        "Google Translate": ["Broad language coverage for quick translation, web pages, and travel.", "Quick translation", ["Translation", "Languages", "Mobile"]],
+        Gamma: ["Generate presentations, web-style documents, and briefings with AI.", "Presentation generation", ["Slides", "Docs", "Templates"]],
+        "Miro AI": ["AI support for whiteboards, brainstorming, flowcharts, and team collaboration.", "Whiteboard collaboration", ["Whiteboard", "Collaboration", "Flowcharts"]]
+      };
+
+      tools.forEach((tool) => {
+        const copy = toolCopyEn[tool.name];
+        if (!copy) return;
+        [tool.descEn, tool.bestForEn, tool.tagsEn] = copy;
+      });
+
+      const categorySelect = document.querySelector("#categorySelect");
+      const pricingSelect = document.querySelector("#pricingSelect");
+      const searchInput = document.querySelector("#searchInput");
+      const quickFilters = document.querySelector("#quickFilters");
+      const toolGrid = document.querySelector("#toolGrid");
+      const resultCount = document.querySelector("#resultCount");
+      const resetBtn = document.querySelector("#resetBtn");
+      const emptyState = document.querySelector("#emptyState");
+      const langButtons = document.querySelectorAll(".lang-btn");
+      const radarTabs = document.querySelector("#radarTabs");
+      const radarKicker = document.querySelector("#radarKicker");
+      const radarTitle = document.querySelector("#radarTitle");
+      const radarSummary = document.querySelector("#radarSummary");
+      const radarBars = document.querySelector("#radarBars");
+      const radarPicks = document.querySelector("#radarPicks");
+      const radarSource = document.querySelector("#radarSource");
+      const radarNote = document.querySelector("#radarNote");
+
+      const sceneFilters = ["全部", "新手首选", "图片模型", "代码代理", "实时研究", "音视频", "办公数据", "免费可用"];
+      let currentLang = "en";
+      let activeRadar = "image";
+
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.dataset.category = category;
+        categorySelect.append(option);
+      });
+
+      sceneFilters.forEach((scene) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chip" + (scene === "全部" ? " is-active" : "");
+        button.dataset.scene = scene;
+        quickFilters.append(button);
+      });
+
+      let activeScene = "全部";
+
+      function matchesScene(tool) {
+        if (activeScene === "全部") return true;
+        if (activeScene === "免费可用") return tool.pricing === "免费可用";
+        if (activeScene === "内容创作") {
+          return ["写作办公", "图片设计", "视频创作", "音频语音", "营销增长"].includes(tool.category);
+        }
+        if (activeScene === "团队办公") {
+          return ["写作办公", "演示协作", "自动化代理", "数据分析"].includes(tool.category);
+        }
+        if (activeScene === "开发上线") return tool.category === "代码开发";
+        if (activeScene === "研究学习") return ["研究学习", "聊天搜索"].includes(tool.category);
+        if (activeScene === "图片模型") return tool.category === "图片设计";
+        if (activeScene === "代码代理") return tool.category === "代码开发" || tool.name.includes("Copilot") || tool.name === "Cursor";
+        if (activeScene === "实时研究") return ["聊天搜索", "研究学习"].includes(tool.category) || ["Perplexity", "NotebookLM", "Consensus", "Elicit"].includes(tool.name);
+        if (activeScene === "音视频") return ["视频创作", "音频语音"].includes(tool.category);
+        if (activeScene === "办公数据") return ["写作办公", "数据分析", "演示协作", "自动化代理"].includes(tool.category);
+        return tool.bestFor.includes(activeScene) || tool.tags.includes(activeScene);
+      }
+
+      function getInitials(name) {
+        return name
+          .split(/\s+/)
+          .map((word) => word[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase();
+      }
+
+      function getLogoUrl(url) {
+        const domain = new URL(url).hostname.replace(/^www\./, "");
+        return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+      }
+
+      function localCategory(category) {
+        return currentLang === "en" ? categoryLabels[category] : category;
+      }
+
+      function localPricing(pricing) {
+        return currentLang === "en" ? pricingLabels[pricing] : pricing;
+      }
+
+      function localScene(scene) {
+        return currentLang === "en" ? sceneLabels[scene] : scene;
+      }
+
+      function applyLanguage() {
+        document.documentElement.lang = currentLang === "en" ? "en" : "zh-CN";
+        document.title = ui[currentLang].title;
+
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.dataset.i18n;
+          if (typeof ui[currentLang][key] === "string") node.textContent = ui[currentLang][key];
+        });
+
+        document.querySelectorAll("[data-placeholder-zh]").forEach((node) => {
+          node.placeholder = node.dataset[`placeholder${currentLang === "en" ? "En" : "Zh"}`];
+        });
+
+        document.querySelectorAll("[data-aria-zh]").forEach((node) => {
+          node.setAttribute("aria-label", node.dataset[`aria${currentLang === "en" ? "En" : "Zh"}`]);
+        });
+
+        categorySelect.querySelector('option[value="all"]').textContent = ui[currentLang].allCategories;
+        categorySelect.querySelectorAll("option[data-category]").forEach((option) => {
+          option.textContent = localCategory(option.dataset.category);
+        });
+
+        pricingSelect.querySelector('option[value="all"]').textContent = ui[currentLang].allPricing;
+        pricingSelect.querySelectorAll("option[value]:not([value='all'])").forEach((option) => {
+          option.textContent = localPricing(option.value);
+        });
+
+        quickFilters.querySelectorAll(".chip").forEach((chip) => {
+          chip.textContent = localScene(chip.dataset.scene);
+        });
+
+        langButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.lang === currentLang);
+        });
+
+        renderTools();
+        renderRadar();
+      }
+
+      function renderRadar() {
+        const entries = Object.entries(radarData);
+        const data = radarData[activeRadar];
+
+        radarTabs.innerHTML = entries
+          .map(
+            ([key, item]) => `
+              <button class="radar-tab ${key === activeRadar ? "is-active" : ""}" type="button" data-radar="${key}">
+                <span class="radar-tab-icon">${item.icon}</span>
+                <span class="radar-tab-label">${item.label[currentLang]}</span>
+              </button>
+            `
+          )
+          .join("");
+
+        radarKicker.textContent = data.kicker[currentLang];
+        radarTitle.textContent = data.title;
+        radarSummary.textContent = data.summary[currentLang];
+        radarSource.href = data.source;
+        radarSource.textContent = ui[currentLang].readSource;
+        radarNote.textContent =
+          currentLang === "en"
+            ? "Tip: live news and prices require search-enabled tools, not just a stronger base model."
+            : "提示：实时新闻和价格需要带搜索能力的工具，不只是更强的基础模型。";
+
+        radarBars.innerHTML = data.bars
+          .map(
+            (bar) => `
+              <div class="strength-row">
+                <span>${bar.label[currentLang]}</span>
+                <div class="bar-track"><div class="bar-fill" style="width:${bar.value}%"></div></div>
+              </div>
+            `
+          )
+          .join("");
+
+        radarPicks.innerHTML = data.picks
+          .map(
+            (pick) => `
+              <article class="radar-pick">
+                <strong>${pick.name}</strong>
+                <span>${pick.badge}</span>
+                <p>${pick.text[currentLang]}</p>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      function renderTools() {
+        const query = searchInput.value.trim().toLowerCase();
+        const category = categorySelect.value;
+        const pricing = pricingSelect.value;
+
+        const filtered = tools.filter((tool) => {
+          const haystack = [
+            tool.name,
+            tool.category,
+            categoryLabels[tool.category],
+            tool.desc,
+            tool.descEn,
+            tool.pricing,
+            pricingLabels[tool.pricing],
+            tool.bestFor,
+            tool.bestForEn,
+            ...tool.tags,
+            ...(tool.tagsEn || [])
+          ]
+            .join(" ")
+            .toLowerCase();
+          return (
+            (!query || haystack.includes(query)) &&
+            (category === "all" || tool.category === category) &&
+            (pricing === "all" || tool.pricing === pricing) &&
+            matchesScene(tool)
+          );
+        });
+
+        resultCount.textContent = ui[currentLang].count(filtered.length, tools.length);
+        emptyState.style.display = filtered.length ? "none" : "block";
+        toolGrid.innerHTML = filtered
+          .map(
+            (tool) => {
+              const categoryText = localCategory(tool.category);
+              const bestForText = currentLang === "en" ? tool.bestForEn : tool.bestFor;
+              const descText = currentLang === "en" ? tool.descEn : tool.desc;
+              const tagText = currentLang === "en" ? tool.tagsEn : tool.tags;
+              return `
+              <article class="tool-card" style="--accent:${accents[tool.category]}">
+                <div class="tool-head">
+                  <div class="tool-title">
+                    <div class="tool-logo" aria-hidden="true">
+                      <img src="${getLogoUrl(tool.url)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${getInitials(tool.name)}'))" />
+                    </div>
+                    <div>
+                      <h3>${tool.name}</h3>
+                      <small>${categoryText} · ${bestForText}</small>
+                    </div>
+                  </div>
+                  <span class="score">★ ${tool.score}</span>
+                </div>
+                <p class="tool-desc">${descText}</p>
+                <div class="tags">
+                  <span class="tag">${localPricing(tool.pricing)}</span>
+                  ${tagText.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+                </div>
+                <div class="tool-actions">
+                  <span>${ui[currentLang].bestFor}${bestForText}</span>
+                  <a class="visit" href="${tool.url}" target="_blank" rel="noreferrer" aria-label="${tool.name} ${ui[currentLang].visit}">
+                    ${ui[currentLang].visit}
+                    <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            `;
+            }
+          )
+          .join("");
+      }
+
+      quickFilters.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        activeScene = button.dataset.scene;
+        quickFilters.querySelectorAll(".chip").forEach((chip) => chip.classList.remove("is-active"));
+        button.classList.add("is-active");
+        renderTools();
+      });
+
+      radarTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-radar]");
+        if (!button) return;
+        activeRadar = button.dataset.radar;
+        renderRadar();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        categorySelect.value = "all";
+        pricingSelect.value = "all";
+        activeScene = "全部";
+        quickFilters.querySelectorAll(".chip").forEach((chip) => {
+          chip.classList.toggle("is-active", chip.dataset.scene === "全部");
+        });
+        renderTools();
+      });
+
+      langButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          currentLang = button.dataset.lang;
+          applyLanguage();
+        });
+      });
+
+      [searchInput, categorySelect, pricingSelect].forEach((control) => {
+        control.addEventListener("input", renderTools);
+      });
+
+      applyLanguage();
+    </script>
+  </body>
+</html>
